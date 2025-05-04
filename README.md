@@ -371,8 +371,8 @@ Si encuentras útil este proyecto o te ha servido para aprender:
 
 - ⭐ **Dale una estrella** al repositorio en GitHub
 - 🔗 **Conéctate** conmigo en redes sociales:
-  - [LinkedIn](https://www.linkedin.com/in/tu-perfil/)
-  - [YouTube](https://www.youtube.com/c/tu-canal)
+  - [LinkedIn](https://www.linkedin.com/in/juancitope%C3%B1a/)
+  - [YouTube](https://www.youtube.com/channel/UCSob-3E5z4IHtMF5B4bN-FA)
 
 ## 📜 **Licencia**
 
