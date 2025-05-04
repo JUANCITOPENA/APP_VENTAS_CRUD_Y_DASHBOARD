@@ -9,10 +9,10 @@ const port = 3000; // O el puerto que prefieras
 
 // --- Configuración de la Base de Datos ---
 const dbConfig = {
-    user: 'JUANCITO',
-    password: '123456', // ¡INSEGURO! Usa métodos seguros.
-    server: 'DESKTOP-M6PHA8P\\SQLEXPRESS',
-    database: 'SUPERMERCADO_JPV_V_2025',
+    user: 'TU USUARIO DEL SERVIDOR',
+    password: 'TU CLAVE', // ¡INSEGURO! Usa métodos seguros.
+    server: 'TU NOMBRE DE SERVIDOR',
+    database: 'TU BASE DE DATOS',
     options: {
         encrypt: true, // Ajusta según tu configuración de SQL Server
         trustServerCertificate: true // Ajusta según tu configuración de SQL Server
