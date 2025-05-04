@@ -13,6 +13,24 @@ Todo gran análisis comienza con datos sólidos. En el núcleo de este sistema r
 
 ---
 
+
+## 🖼️ Vistas del Dashboard y Aplicación
+
+A continuación se muestran algunas capturas de pantalla clave del Dashboard de Ventas y la interfaz de Gestión de Ventas:
+
+| Vista 1                                      | Vista 2                                         | Vista 3                                       |
+| :------------------------------------------: | :---------------------------------------------: | :-------------------------------------------: |
+| ![Vista Dashboard KPIs](screenshots/Screenshot_392.png) | ![Vista Dashboard Resumen Ejecutivo](screenshots/Screenshot_391.png) | ![Vista Dashboard Evolución Anual](screenshots/Screenshot_390.png) |
+| ![Vista Dashboard Rentabilidad](screenshots/Screenshot_389.png) | ![Vista Dashboard Tablas Detalle](screenshots/Screenshot_388.png) | ![Vista Dashboard Geo Vendedor](screenshots/Screenshot_387.png) |
+| ![Vista Dashboard Cliente Producto](screenshots/Screenshot_386.png) | ![Vista Dashboard Pareto Productos](screenshots/Screenshot_385.png) | ![Vista Dashboard Pareto Clientes](screenshots/Screenshot_384.png) |
+| ![Vista Gestión Ventas Formulario](screenshots/Screenshot_383.png) | ![Vista Gestión Ventas Tabla Llena](screenshots/Screenshot_382.png) | ![Vista Dashboard Modo Oscuro](screenshots/Screenshot_381.png) |
+
+**Nota Importante:** Para que estas imágenes se muestren correctamente, asegúrate de:
+1.  Crear una carpeta llamada `screenshots` (o el nombre que prefieras, por ejemplo `images`) en la raíz de tu repositorio GitHub.
+2.  Subir los archivos `Screenshot_XXX.png` mencionados a esa carpeta.
+3.  Si elegiste un nombre de carpeta diferente a `screenshots`, actualiza las rutas en la tabla anterior para que coincidan (ej., `images/Screenshot_392.png`).
+
+
 ## Construyendo la Experiencia: HTML 🏗️, CSS 💅 y JavaScript Puro 🧠
 
 La interfaz que ves es el resultado de la sinergia del trío fundamental de la web:
