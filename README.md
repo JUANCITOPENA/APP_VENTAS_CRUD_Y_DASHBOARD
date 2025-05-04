@@ -202,67 +202,182 @@ A continuación se muestra la organización de los archivos y carpetas clave del
 
 Para poner en funcionamiento este proyecto en tu entorno local, sigue estos pasos:
 
-### 1. Prerrequisitos 🛠️
 
-Asegúrate de tener instalado el siguiente software en tu sistema:
+## 🛠 Instalación y Configuración
 
-*   **Node.js y npm:**
-    *   **Node.js:** Es el entorno de ejecución para el backend (`server.js`). Se recomienda una versión LTS (Long Term Support) reciente. Puedes descargarlo desde [nodejs.org](https://nodejs.org/).
-    *   **npm:** Viene incluido con Node.js. Es el gestor de paquetes que usaremos para instalar las librerías del proyecto. Puedes verificar tu instalación abriendo una terminal y ejecutando `node -v` y `npm -v`.
-*   **SQL Server:**
-    *   Necesitas una instancia de **Microsoft SQL Server** accesible (puede ser una versión Express gratuita, Developer, Standard, etc.). Esta será la base de datos que almacenará los datos de ventas.
-    *   Puedes descargar SQL Server desde el [sitio oficial de Microsoft](https://www.microsoft.com/es-es/sql-server/sql-server-downloads).
-    *   **Opcional pero recomendado:** Una herramienta de gestión de bases de datos como **SQL Server Management Studio (SSMS)** o **Azure Data Studio** para crear la base de datos, las tablas y ejecutar consultas fácilmente.
+### 1. ✅ **Prerrequisitos Indispensables** 🛠️
 
-### 2. Configuración de la Base de Datos 🗄️
+Antes de comenzar, asegúrate de tener instalado:
 
-*   **Crea la Base de Datos:** Usando SSMS o tu herramienta preferida, crea una nueva base de datos llamada `SUPERMERCADO_JPV_V_2025`.
-*   **Crea las Tablas y Vistas:** Ejecuta los scripts SQL necesarios para crear las tablas (`CLIENTE`, `VENDEDOR`, `REGION`, `PRODUCTO`, `VENTAS`) y la vista de análisis (`NUEVA_VISTA_ANALISIS_VENTAS_v1`) dentro de la base de datos `SUPERMERCADO_JPV_V_2025`. *(Nota: Asegúrate de tener estos scripts o créalos según la estructura esperada por `server.js`)*.
-*   **Configura la Conexión:** Abre el archivo `server.js` en un editor de texto. Localiza la sección `dbConfig` y **modifica los valores** (`user`, `password`, `server`, `database`) para que coincidan con los detalles de tu instancia de SQL Server y tus credenciales. 🔑 **¡IMPORTANTE: No compartas credenciales sensibles en repositorios públicos!** Considera usar variables de entorno (con `dotenv`) para manejar las credenciales de forma más segura si planeas compartir el código.
+- **Node.js y npm**:
+  - Node.js (versión LTS recomendada) - [Descargar Node.js](https://nodejs.org/)
+  - npm (incluido con Node.js)
+  - Verifica la instalación: `node -v` y `npm -v`
 
-### 3. Instalación de Dependencias (Node.js) 📦
+- **SQL Server**:
+  - Microsoft SQL Server (Express, Developer o cualquier edición) - [Descargar SQL Server](https://www.microsoft.com/es-es/sql-server/sql-server-downloads)
+  - Herramienta de gestión recomendada: 
+    - [SQL Server Management Studio (SSMS)](https://docs.microsoft.com/es-es/sql/ssms/download-sql-server-management-studio-ssms)
+    - O [Azure Data Studio](https://docs.microsoft.com/es-es/sql/azure-data-studio/download-azure-data-studio)
 
-*   **Clona el Repositorio:** Si aún no lo has hecho, descarga o clona el código fuente del proyecto en tu máquina local.
-*   **Instala Librerías:** Abre una terminal o línea de comandos, navega hasta la **carpeta raíz** del proyecto (la que contiene `server.js` y `package.json`) y ejecuta el siguiente comando:
-    ```bash
-    npm install express mssql cors dotenv
-    ```
-    Este comando instalará (o actualizará) las librerías de Node.js necesarias para el backend (`server.js`). Las librerías clave incluidas en este comando son:
-    *   `express`: Framework web para construir la API y servir los archivos estáticos.
-    *   `mssql`: Driver oficial de Microsoft para conectar Node.js con SQL Server.
-    *   `cors`: Middleware para habilitar Cross-Origin Resource Sharing (útil si tu frontend se sirve desde un origen diferente al backend en algún momento, aunque en esta configuración simple no sea estrictamente necesario, es buena práctica incluirlo).
-    *   `dotenv`: Permite cargar variables de entorno desde un archivo `.env` (ideal para manejar credenciales de base de datos y otras configuraciones sensibles de forma segura, separadas del código fuente).
+### 2. 🗄️ **Configuración de la Base de Datos SQL Server**
 
-    *(Nota: Si ya tienes un `package.json`, puedes ejecutar `npm install` y se instalarán todas las dependencias listadas allí, incluyendo estas si están definidas).*
+1. **Crear la Base de Datos**:
+   - Abre SSMS o Azure Data Studio
+   - Conéctate a tu instancia de SQL Server
+   - Ejecuta: `CREATE DATABASE SUPERMERCADO_JPV_V_2025;`
 
-### 4. Variables de Entorno (Opcional, pero Recomendado con `dotenv`) 🔒
+2. **Estructura de la Base de Datos**:
+   - Ejecuta los scripts SQL para crear las tablas principales:
+     - `CLIENTE`
+     - `VENDEDOR`
+     - `PRODUCTO`
+     - `VENTAS`
+   - Configura la vista analítica: `NUEVA_VISTA_ANALISIS_VENTAS_v1`
 
-*   Si decides usar `dotenv`, crea un archivo llamado `.env` en la **carpeta raíz** del proyecto (al mismo nivel que `server.js`).
-*   Dentro del archivo `.env`, define tus variables de entorno, por ejemplo:
-    ```dotenv
-    DB_USER=tu_usuario_sql
-    DB_PASSWORD=tu_contraseña_sql
-    DB_SERVER=tu_servidor_sql\\instancia
-    DB_DATABASE=SUPERMERCADO_JPV_V_2025
-    PORT=3000
-    ```
-*   **Importante:** Añade el archivo `.env` a tu `.gitignore` para evitar subirlo accidentalmente a repositorios públicos.
-*   Asegúrate de que `server.js` cargue y use estas variables (normalmente se añade `require('dotenv').config();` al principio del archivo y se modifican las partes relevantes como `dbConfig` y `port` para usar `process.env.NOMBRE_VARIABLE`).
+3. **Configuración de Conexión**:
+   - Localiza el archivo `server.js`
+   - Actualiza el objeto `dbConfig` con tus credenciales:
+   ```javascript
+   const dbConfig = {
+     user: 'tu_usuario',
+     password: 'tu_contraseña',
+     server: 'tu_servidor\\instancia', 
+     database: 'SUPERMERCADO_JPV_V_2025',
+     options: {
+       trustServerCertificate: true,
+       enableArithAbort: true
+     }
+   };
+   ```
 
-### 5. Ejecutar el Servidor Backend 🚀
+### 3. 📦 **Instalación de Dependencias (Node.js)**
 
-*   Desde la misma terminal en la carpeta raíz del proyecto, ejecuta:
-    ```bash
-    node server.js
-    ```
-*   Si todo está configurado correctamente, deberías ver mensajes en la consola indicando que el servidor está escuchando en un puerto (el definido en `.env` o el valor por defecto) y que se ha conectado (o intentado conectar) a la base de datos.
+1. Navega a la carpeta raíz del proyecto en tu terminal:
+   ```bash
+   cd ruta/a/tu/proyecto
+   ```
 
-### 6. Acceder a la Aplicación 🌐
+2. Instala las dependencias necesarias:
+   ```bash
+   npm install express mssql cors dotenv
+   ```
 
-*   Abre tu navegador web preferido.
-*   Navega a `http://localhost:3000` (o el puerto configurado) para ver el **Dashboard de Ventas**.
-*   Navega a `http://localhost:3000/ventas.html` para acceder a la interfaz de **Gestión de Ventas**.
+   Estas dependencias incluyen:
+   - `express`: Framework web para la API
+   - `mssql`: Driver para conexión con SQL Server
+   - `cors`: Middleware para habilitar CORS
+   - `dotenv`: Gestión de variables de entorno
+
+### 4. 🔒 **Variables de Entorno (Opcional, pero Muy Recomendado)**
+
+Para mayor seguridad, configura las variables sensibles en un archivo `.env`:
+
+1. Crea un archivo `.env` en la raíz del proyecto:
+   ```
+   DB_USER=tu_usuario_sql
+   DB_PASSWORD=tu_contraseña_sql
+   DB_SERVER=tu_servidor\\instancia
+   DB_DATABASE=SUPERMERCADO_JPV_V_2025
+   PORT=3000
+   ```
+
+2. Modifica `server.js` para utilizar estas variables:
+   ```javascript
+   // Al inicio del archivo
+   require('dotenv').config();
+   
+   // Reemplaza dbConfig por:
+   const dbConfig = {
+     user: process.env.DB_USER,
+     password: process.env.DB_PASSWORD,
+     server: process.env.DB_SERVER,
+     database: process.env.DB_DATABASE,
+     options: {
+       trustServerCertificate: true,
+       enableArithAbort: true
+     }
+   };
+   ```
+
+3. Añade `.env` a tu archivo `.gitignore`:
+   ```
+   node_modules/
+   .env
+   ```
+
+### 5. ▶️ **Ejecución del Servidor Backend** 🚀
+
+1. Inicia el servidor:
+   ```bash
+   node server.js
+   ```
+
+2. Deberías ver mensajes similares a:
+   ```
+   Servidor escuchando en el puerto 3000
+   Conexión a SQL Server establecida correctamente
+   ```
+
+### 6. 🌐 **Acceso a la Aplicación**
+
+Abre tu navegador y accede a:
+
+- **Dashboard Analítico**: `http://localhost:3000`
+- **Gestión de Ventas (CRUD)**: `http://localhost:3000/ventas.html`
+
+## 📥 **Clonación del Repositorio**
+
+Para obtener una copia local del proyecto:
+
+```bash
+git clone https://github.com/JUANCITOPENA/APP_VENTAS_CRUD_Y_DASHBOARD.git
+cd APP_VENTAS_CRUD_Y_DASHBOARD
+```
+
+## 🔌 **API Endpoints**
+
+El backend expone los siguientes endpoints para interactuar con la base de datos:
+
+- **GET `/api/ventas`**: Obtiene todas las ventas
+- **GET `/api/ventas/:id`**: Obtiene una venta específica
+- **POST `/api/ventas`**: Crea una nueva venta
+- **PUT `/api/ventas/:id`**: Actualiza una venta existente
+- **DELETE `/api/ventas/:id`**: Elimina una venta
+
+- **GET `/api/dashboard/stats`**: Obtiene estadísticas para el dashboard
+- **GET `/api/productos`**: Lista todos los productos
+- **GET `/api/clientes`**: Lista todos los clientes
+- **GET `/api/vendedores`**: Lista todos los vendedores
+
+## 🤝 **Contribución**
+
+¡Las contribuciones son bienvenidas! Si deseas mejorar este proyecto:
+
+1. **Reporta un problema**: Describe bugs o mejoras propuestas abriendo un [Issue](https://github.com/JUANCITOPENA/APP_VENTAS_CRUD_Y_DASHBOARD/issues).
+
+2. **Sugiere nuevas características**: Usa también la sección de Issues para proponer ideas.
+
+3. **Contribuye con código**:
+   - Haz un fork del repositorio
+   - Crea una rama para tus cambios: `git checkout -b feature/nueva-caracteristica`
+   - Realiza tus cambios y haz commit: `git commit -m 'Añade nueva característica'`
+   - Sube tus cambios: `git push origin feature/nueva-caracteristica`
+   - Envía un Pull Request
+
+## 👨‍💻 **Soporte**
+
+Si encuentras útil este proyecto o te ha servido para aprender:
+
+- ⭐ **Dale una estrella** al repositorio en GitHub
+- 🔗 **Conéctate** conmigo en redes sociales:
+  - [LinkedIn](https://www.linkedin.com/in/tu-perfil/)
+  - [YouTube](https://www.youtube.com/c/tu-canal)
+
+## 📜 **Licencia**
+
+Este proyecto está distribuido bajo la [Licencia MIT](LICENSE). Esto significa que puedes usar, modificar y distribuir este código libremente, siempre que incluyas el aviso de copyright original y la nota de licencia.
 
 ---
 
-¡Explora, analiza y toma decisiones basadas en datos! 🎉
+Desarrollado con ❤️ por [JUANCITO PEÑA](https://github.com/JUANCITOPENA)
