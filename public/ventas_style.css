@@ -1,0 +1,347 @@
+/* ventas_style.css */
+
+/* Estilos generales para la página de ventas */
+body {
+    background-color: #f4f7f6;
+}
+
+.ventas-main {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+    font-size: 1.4em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilos del Formulario */
+#venta-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #34495e;
+    font-size: 0.95em;
+}
+
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #fdfdfd;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.form-group input[type="number"] {
+   -moz-appearance: textfield;
+}
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+}
+
+.form-group small {
+    font-size: 0.8em;
+    color: #777;
+    margin-top: 4px;
+}
+
+.total-display {
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 20px;
+    grid-column: span 1;
+}
+
+#total-calculado {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #27ae60;
+    margin-left: 10px;
+}
+
+/* Botones del formulario */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-actions button:active {
+    transform: scale(0.98);
+}
+
+#submit-button {
+    background-color: #2ecc71;
+    color: white;
+}
+#submit-button:hover {
+    background-color: #27ae60;
+}
+
+#cancel-button {
+    background-color: #e74c3c;
+    color: white;
+}
+#cancel-button:hover {
+    background-color: #c0392b;
+}
+
+/* Mensajes */
+.message {
+    margin-top: 15px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 0.95em;
+    text-align: center;
+}
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Estilos de la Tabla */
+.table-container {
+    overflow-x: auto;
+    margin-top: 10px; /* Reducido margen superior ya que paginación está arriba */
+}
+
+#ventas-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+#ventas-table th,
+#ventas-table td {
+    border: 1px solid #e0e0e0;
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+#ventas-table thead th {
+    background-color: #ecf0f1;
+    color: #34495e;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#ventas-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+#ventas-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+#ventas-table td:nth-child(n+7):nth-child(-n+9) { /* Cantidad, Precio, Total */
+    text-align: right;
+}
+
+/* Botones de Acción en la tabla */
+#ventas-table .action-buttons button {
+    padding: 5px 8px;
+    font-size: 0.85em;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+#ventas-table .action-buttons button:last-child {
+    margin-right: 0;
+}
+
+#ventas-table .edit-btn {
+    background-color: #3498db;
+    color: white;
+}
+#ventas-table .edit-btn:hover {
+    background-color: #2980b9;
+}
+
+#ventas-table .delete-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+#ventas-table .delete-btn:hover {
+    background-color: #c0392b;
+}
+
+#ventas-table .action-buttons button i {
+    /* margin-right: 4px; */ /* Removido para que iconos solos se vean bien */
+    pointer-events: none; /* Evita que el click vaya al icono en lugar del botón */
+}
+
+/* ***** ESTILOS PARA PAGINACIÓN ***** */
+.pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px 0;
+    margin-bottom: 15px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    gap: 15px;
+}
+
+.page-size-selector label {
+    margin-right: 8px;
+    font-weight: 500;
+    color: #555;
+    font-size: 0.9em;
+}
+
+.page-size-selector select {
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.navigation-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#paginationInfo {
+    font-size: 0.9em;
+    color: #666;
+    margin: 0 10px;
+}
+
+.navigation-buttons button {
+    padding: 6px 12px;
+    font-size: 0.9em;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    line-height: 1.2; /* Ajuste para mejor alineación vertical */
+}
+
+.navigation-buttons button:hover:not(:disabled) {
+    background-color: #e9e9e9;
+}
+
+.navigation-buttons button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+/* ***** FIN ESTILOS PAGINACIÓN ***** */
+
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+     #ventas-table {
+        font-size: 0.85em;
+    }
+    #ventas-table th,
+    #ventas-table td {
+        padding: 8px 10px;
+        white-space: normal;
+    }
+    #ventas-table td:nth-child(n+3):nth-child(-n+6) {
+       min-width: 120px;
+    }
+}
+
+@media (max-width: 600px) {
+    .pagination-controls {
+        flex-direction: column;
+        align-items: center; /* Centrar en lugar de stretch */
+        gap: 10px;
+    }
+    .page-size-selector, .navigation-buttons {
+        justify-content: center;
+        width: auto; /* No forzar ancho completo */
+    }
+    #paginationInfo {
+        text-align: center;
+        margin-bottom: 5px; /* Menos espacio */
+        width: 100%; /* Ocupar ancho para centrar texto */
+    }
+    .navigation-buttons {
+        width: 100%; /* Hacer que los botones ocupen el ancho */
+        justify-content: space-between; /* Espaciar botones */
+    }
+}

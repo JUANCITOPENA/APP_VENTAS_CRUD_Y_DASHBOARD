@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/7626/7626835.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ventas</title>
+    <!-- Estilos Generales (incluye responsividad base y header/nav) -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Estilos Específicos de la página de Ventas (form, tabla, paginación) -->
+    <link rel="stylesheet" href="ventas_style.css">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <!-- ===================== HEADER ===================== -->
+    <header>
+        <!-- Título principal con icono -->
+        <h1>
+            <i class="fas fa-cash-register" aria-hidden="true"></i> Gestión de Ventas
+        </h1>
+        <!-- Menú de navegación principal -->
+        <nav class="main-nav" aria-label="Navegación Principal">
+             <ul>
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/ventas.html" class="active" aria-current="page">Gestionar Ventas</a></li>
+                <!-- Añadir más enlaces aquí si es necesario -->
+            </ul>
+        </nav>
+                   <!-- ***** AÑADIR ESTE BOTÓN ***** -->
+    <button id="theme-toggle-btn" class="theme-switcher" title="Cambiar tema" aria-label="Cambiar tema">
+        <i class="fas fa-moon"></i> <!-- Icono inicial (modo claro por defecto) -->
+    </button>
+   <!-- *************************** -->
+
+    </header>
+
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main class="ventas-main">
+
+        <!-- ===================== SECCIÓN FORMULARIO ===================== -->
+        <section id="form-section" class="card" aria-labelledby="form-heading">
+            <h2 id="form-heading">Registrar / Actualizar Venta</h2>
+
+            <form id="venta-form" novalidate> <!-- novalidate para controlar mensajes con JS -->
+                <!-- Campo oculto para ID en edición -->
+                <input type="hidden" id="venta-id" name="ventaId">
+
+                <!-- Agrupación de campos de entrada -->
+                <fieldset>
+                    <!-- Usar fieldset sin legend si no se quiere título visible extra -->
+                    <!-- <legend>Detalles de la Venta</legend> -->
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fecha">Fecha:</label>
+                            <input type="date" id="fecha" name="fecha" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_pedido">ID Pedido:</label>
+                            <input type="number" id="id_pedido" name="id_pedido" required min="1" placeholder="Ej: 1001">
+                            <small>Usado como identificador único.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_cliente">Cliente:</label>
+                            <select id="id_cliente" name="id_cliente" required>
+                                <option value="" disabled selected>Seleccione un cliente...</option>
+                                <!-- Opciones cargadas por JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_vendedor">Vendedor:</label>
+                            <select id="id_vendedor" name="id_vendedor" required>
+                                <option value="" disabled selected>Seleccione un vendedor...</option>
+                                <!-- Opciones cargadas por JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_region">Región:</label>
+                            <select id="id_region" name="id_region" required>
+                                 <option value="" disabled selected>Seleccione una región...</option>
+                                <!-- Opciones cargadas por JS -->
+                            </select>
+                        </div>
+                         <div class="form-group">
+                            <label for="id_producto">Producto:</label>
+                            <select id="id_producto" name="id_producto" required>
+                                <option value="" disabled selected>Seleccione un producto...</option>
+                                <!-- Opciones cargadas por JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidad">Cantidad:</label>
+                            <input type="number" id="cantidad" name="cantidad" required min="1" placeholder="Ej: 5">
+                        </div>
+                        <div class="form-group">
+                            <label for="precio">Precio Unitario:</label>
+                            <!-- readonly podría ser una opción si SIEMPRE viene del producto, pero permitir editar es más flexible -->
+                            <input type="number" id="precio" name="precio" required min="0" step="0.01" placeholder="Ej: 19.99">
+                        </div>
+                    </div> <!-- Fin .form-grid -->
+                </fieldset>
+
+                 <!-- Agrupación para Resumen y Acciones -->
+                <fieldset class="form-summary-actions">
+                    <!-- Total Calculado - Movido fuera del grid -->
+                     <div class="form-group total-display">
+                        <label>Total Calculado:</label>
+                        <output id="total-calculado" aria-live="polite">$0.00</output> <!-- Usar <output> es más semántico -->
+                    </div>
+
+                    <!-- Acciones del Formulario -->
+                    <div class="form-actions">
+                        <button type="submit" id="submit-button" class="button button-primary">
+                            <i class="fas fa-save" aria-hidden="true"></i> Guardar Venta
+                        </button>
+                        <button type="button" id="cancel-button" class="button button-secondary" onclick="resetFormularioVenta()">
+                            <i class="fas fa-times" aria-hidden="true"></i> Cancelar / Limpiar
+                        </button>
+                    </div>
+                </fieldset>
+
+                 <!-- Mensaje de Feedback del Formulario -->
+                 <div id="form-message" class="message" role="alert" aria-live="assertive" style="display: none;"></div>
+            </form>
+        </section> <!-- Fin #form-section -->
+
+        <!-- ===================== SECCIÓN LISTADO ===================== -->
+        <section id="list-section" class="card" aria-labelledby="list-heading">
+            <h2 id="list-heading">Listado de Ventas</h2>
+
+            <!-- Controles de Paginación -->
+            <div class="pagination-controls">
+                <div class="page-size-selector">
+                    <label for="pageSizeSelect">Mostrar por página:</label>
+                    <select id="pageSizeSelect" aria-controls="ventas-table">
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+                <nav class="navigation-buttons" id="paginationNav" aria-label="Navegación de tabla" style="display: none;">
+                    <span id="paginationInfo" aria-live="polite">Cargando...</span>
+                    <button id="prevPageBtn" disabled aria-label="Página anterior">« Anterior</button>
+                    <button id="nextPageBtn" disabled aria-label="Página siguiente">Siguiente »</button>
+                </nav>
+            </div> <!-- Fin .pagination-controls -->
+
+            <!-- Contenedor de la Tabla (para scroll) -->
+            <div class="table-container">
+                <table id="ventas-table" aria-live="polite" aria-busy="true"> <!-- aria-busy indica carga inicial -->
+                    <thead>
+                        <tr>
+                            <!-- Añadir scope="col" para accesibilidad -->
+                            <th scope="col">Fecha</th>
+                            <th scope="col">ID Pedido</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Vendedor</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Región</th>
+                            <th scope="col" class="text-right">Cantidad</th>
+                            <th scope="col" class="text-right">Precio U.</th>
+                            <th scope="col" class="text-right">Total</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ventas-table-body">
+                        <!-- Fila de carga inicial -->
+                        <tr>
+                            <td colspan="10" style="text-align: center;">Cargando datos...</td>
+                        </tr>
+                        <!-- Filas de datos se cargarán aquí por JS -->
+                    </tbody>
+                </table>
+            </div> <!-- Fin .table-container -->
+
+            <!-- Mensaje de Feedback del Listado -->
+            <div id="list-message" class="message" role="status" aria-live="polite" style="display: none;"></div>
+
+        </section> <!-- Fin #list-section -->
+
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer>
+        <p>Sistema de Gestión de Ventas © <span id="current-year"></span></p>
+         <!-- Script simple para el año actual -->
+         <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+    </footer>
+
+    <!-- ===================== SCRIPTS ===================== -->
+    <script src="ventas_script.js"></script>
+
+</body>
+</html>

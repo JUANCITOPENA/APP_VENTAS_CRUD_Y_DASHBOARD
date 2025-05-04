@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/8899/8899687.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Ventas Avanzado</title>
+
+    <!-- Estilos locales -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+    <!-- Plugin Chart.js para etiquetas -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <!-- html2canvas para capturas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+            integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- jsPDF para exportar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+            integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DKjRdigISdsRCXVCARZFC8LljNhm9uoLPLAClPMtMAVR_xTp8C5g132Cw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Estilo interno (Loading Overlay y Resumen Ejecutivo) -->
+    <style>
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(255, 255, 255, 0.85);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; font-size: 1.5rem; color: #333; text-align: center;
+            backdrop-filter: blur(3px); transition: opacity 0.3s ease-out; opacity: 1;
+        }
+        #loading-overlay > div { padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        #loading-overlay i { margin-bottom: 1rem; font-size: 3rem; color: #3498db; }
+        #loading-overlay .loading-message { color: #333; font-size: 16px; margin-top: 10px; }
+        #loading-overlay.hidden { opacity: 0; pointer-events: none; }
+
+        /* Estilos para el Resumen Ejecutivo */
+        .executive-summary-section { margin-top: 25px; margin-bottom: 25px; }
+        .executive-summary-box {
+            background-color: var(--card-bg); padding: 20px 25px; border-radius: 8px;
+            border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            line-height: 1.6; max-width: 95%; margin-left: auto; margin-right: auto;
+        }
+        .text-justify { text-align: justify; }
+        body.dark-mode .executive-summary-box { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
+        .highlight-positive { color: var(--color-positive, #28a745); font-weight: bold; }
+        .highlight-negative { color: var(--color-negative, #dc3545); font-weight: bold; }
+        .highlight-neutral { color: var(--color-warning, #ffc107); font-weight: bold; }
+        .highlight-key { color: var(--color-primary, #007bff); font-weight: bold; }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div>
+            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i><br>
+            Cargando datos del dashboard...
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>
+            <i class="fas fa-chart-pie" aria-hidden="true"></i> Dashboard de Ventas Avanzado
+        </h1>
+          <!-- La Imagen es el segundo elemento Flex -->
+          <img src="https://avatars.githubusercontent.com/u/38921558?v=4" alt="Avatar" class="navbar-avatar">
+        <nav class="main-nav" aria-label="Navegación Principal">
+            <ul>
+                <li><a href="/" class="active" aria-current="page">Dashboard</a></li>
+                <li><a href="/ventas.html">Gestionar Ventas</a></li>
+            </ul>
+        </nav>
+        <!-- Botón de Modo Oscuro -->
+        <button id="darkModeBtn" class="theme-switcher" title="Cambiar tema" aria-label="Cambiar tema">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- Controles Principales -->
+    <div class="page-controls">
+        <div class="export-container">
+            <button id="exportPdfBtn" class="button">
+                <i class="fas fa-file-pdf" aria-hidden="true"></i> Descargar PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main>
+        <!-- Sección 1: KPIs Principales (Cards) -->
+        <section class="kpi-section card-section" aria-labelledby="kpi-heading">
+            <h2 id="kpi-heading">Resumen General</h2>
+            <div class="kpi-container">
+                <!-- KPI Card 1: Ingreso Total -->
+                <div class="kpi-card" id="kpiIngresoTotal">
+                    <div class="kpi-icon"><i class="fas fa-dollar-sign" aria-hidden="true"></i></div>
+                    <div class="kpi-content">
+                        <span class="kpi-title">Ingreso Total</span>
+                        <span class="kpi-value">--</span>
+                        <span class="kpi-comparison">--</span>
+                    </div>
+                </div>
+                <!-- KPI Card 2: Margen Total -->
+                <div class="kpi-card" id="kpiMargenTotal">
+                    <div class="kpi-icon"><i class="fas fa-piggy-bank" aria-hidden="true"></i></div>
+                    <div class="kpi-content">
+                        <span class="kpi-title">Margen Total</span>
+                        <span class="kpi-value">--</span>
+                        <span class="kpi-comparison">Margen Acumulado</span>
+                    </div>
+                </div>
+                <!-- KPI Card 3: Margen Porcentual -->
+                <div class="kpi-card" id="kpiMargenPorc">
+                    <div class="kpi-icon"><i class="fas fa-percentage" aria-hidden="true"></i></div>
+                    <div class="kpi-content">
+                        <span class="kpi-title">Margen %</span>
+                        <span class="kpi-value">--</span>
+                        <span class="kpi-indicator">--</span>
+                    </div>
+                </div>
+                <!-- KPI Card 4: Unidades Totales -->
+                <div class="kpi-card" id="kpiCantidad">
+                    <div class="kpi-icon"><i class="fas fa-box-open" aria-hidden="true"></i></div>
+                    <div class="kpi-content">
+                        <span class="kpi-title">Unidades Totales</span>
+                        <span class="kpi-value">--</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Párrafo para la narrativa de KPIs (Mantenido por si se usa aún) -->
+            <p class="narrative large-narrative" id="kpi-narrative">Cargando resumen ejecutivo...</p>
+        </section>
+        <!-- FIN Sección 1 -->
+
+
+        <!-- ============================================================ -->
+        <!-- === NUEVA SECCIÓN: RESUMEN EJECUTIVO ======================= -->
+        <!-- ============================================================ -->
+        <section class="executive-summary-section" aria-labelledby="executive-summary-heading">
+            <h2 id="executive-summary-heading" style="text-align: center; margin-bottom: 15px;">
+                📝 Resumen Ejecutivo y Estado General 📊
+            </h2>
+            <div class="narrative large-narrative executive-summary-box text-justify" id="executiveSummaryNarrative">
+                <p><em>🧠 Analizando los datos globales para ofrecer una visión consolidada del rendimiento...</em></p>
+            </div>
+        </section>
+        <!-- ============================================================ -->
+        <!-- === FIN NUEVA SECCIÓN ====================================== -->
+        <!-- ============================================================ -->
+
+
+        <!-- Sección 2: Evolución Anual de Ventas -->
+        <section class="chart-section" aria-labelledby="evolucion-heading">
+            <h2 id="evolucion-heading">📈 Evolución Anual 📉</h2>
+            <div class="chart-container">
+                <canvas id="ventasAnualesChart" role="img" aria-label="Gráfico de barras de ventas anuales"></canvas>
+                <p class="narrative" id="ventasAnualesNarrative">📉 Analizando la tendencia histórica de ingresos...</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="crecimientoAnualChart" role="img" aria-label="Gráfico de barras de crecimiento porcentual anual"></canvas>
+                <p class="narrative" id="crecimientoAnualNarrative">📈 Evaluando la variación porcentual año tras año...</p>
+            </div>
+        </section>
+
+        <!-- Sección 3: Rentabilidad y Costos -->
+        <section class="chart-section" aria-labelledby="rentabilidad-heading">
+            <h2 id="rentabilidad-heading">💰 Análisis de Rentabilidad</h2>
+            <div class="chart-container large-chart">
+                <canvas id="resumenFinancieroChart" role="img" aria-label="Gráfico de barras de desglose financiero"></canvas>
+                <p class="narrative" id="resumenFinancieroNarrative">Desglosando los componentes financieros clave...</p>
+            </div>
+            <div class="table-container small-table">
+                <h3>Distribución %</h3>
+                <table id="rentabilidadTable" aria-label="Tabla de distribución porcentual de rentabilidad">
+                    <thead>
+                        <tr>
+                            <th scope="col">Componente</th>
+                            <th scope="col" class="text-right">% s/ Ingreso</th>
+                            <th scope="col" class="text-center">Indicador</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rentabilidadTableBody">
+                        <tr><td colspan="3" class="text-center">Cargando...</td></tr>
+                    </tbody>
+                </table>
+                <p class="narrative" id="rentabilidadTableNarrative">Comparando la proporción del costo y margen sobre el ingreso total...</p>
+            </div>
+        </section>
+
+        <!-- Sección 4: Detalles Anuales y KPIs Consolidados -->
+        <section class="table-section full-width" aria-labelledby="detalles-heading">
+            <h2 id="detalles-heading">📊 Detalles y KPIs Consolidados 📉</h2>
+            <div class="table-container half-width">
+                <h3>📅 Comparativa Anual Detallada 📉</h3>
+                <table id="anualDetailTable" aria-label="Tabla de comparación anual detallada de ventas">
+                    <thead>
+                        <tr>
+                            <th scope="col">Año</th>
+                            <th scope="col" class="text-right">Ventas 💰</th>
+                            <th scope="col" class="text-right">Dif. Absoluta 🔄</th>
+                            <th scope="col" class="text-right">Crecim. (%) 📈</th>
+                            <th scope="col" class="text-center">Tendencia 📉</th>
+                        </tr>
+                    </thead>
+                    <tbody id="anualDetailTableBody">
+                        <tr><td colspan="5" class="text-center">Cargando...</td></tr>
+                    </tbody>
+                </table>
+                <p class="narrative" id="anualDetailTableNarrative">📊 Tabla resumen del rendimiento anual y su evolución.</p>
+            </div>
+            <div class="table-container half-width">
+                <h3>📊 Indicadores Clave (KPIs) 📉</h3>
+                <table id="kpiTable" aria-label="Tabla de indicadores clave de rendimiento (KPIs)">
+                    <thead>
+                        <tr>
+                            <th scope="col">Indicador 🏆</th>
+                            <th scope="col" class="text-right">Valor 📊</th>
+                            <th scope="col" class="text-center">Estado 🔍</th>
+                        </tr>
+                    </thead>
+                    <tbody id="kpiTableBody">
+                        <tr><td colspan="3" class="text-center">Cargando...</td></tr>
+                    </tbody>
+                </table>
+                <p class="narrative" id="kpiTableNarrative">📊 Vista consolidada de las métricas más importantes.</p>
+            </div>
+        </section>
+
+        <!-- Sección 6: Análisis Geográfico y por Vendedor -->
+        <section class="chart-section" aria-labelledby="geo-seller-heading">
+            <h2 id="geo-seller-heading">🌍 Rendimiento por Ubicación y Vendedor 🏢</h2>
+            <div class="chart-container">
+                <!-- Cambiado título para reflejar gráfico de región -->
+                <h3>🌍 Ventas por Región 💰</h3>
+                <canvas id="regionSalesChart" role="img" aria-label="Gráfico de barras de ventas totales por región"></canvas>
+                <p class="narrative" id="regionSalesNarrative">Identificando las regiones con mayor volumen de ventas...</p>
+            </div>
+            <div class="chart-container">
+                <h3>🏢 Top Vendedores (por Ventas) 📈</h3>
+                <canvas id="sellerSalesChart" role="img" aria-label="Gráfico de barras horizontales de los mejores vendedores por ventas"></canvas>
+                <p class="narrative" id="sellerSalesNarrative">Destacando a los vendedores con mejor desempeño en ingresos...</p>
+            </div>
+        </section>
+
+        <!-- Sección 7: Análisis por Cliente y Producto -->
+        <section class="chart-section" aria-labelledby="customer-product-heading">
+            <h2 id="customer-product-heading">🛒️ Análisis por Cliente y Producto 📊</h2>
+            <div class="chart-container">
+                <h3>🏢 Top Clientes (por Compras) 💰</h3>
+                <canvas id="customerSalesChart" role="img" aria-label="Gráfico de barras horizontales de los principales clientes por total de compras"></canvas>
+                <p class="narrative" id="customerSalesNarrative">Reconociendo a los clientes que más aportan al negocio...</p>
+            </div>
+            <div class="chart-container">
+                <h3>🛒 Top Productos (por Ventas) 📈</h3> <!-- Emoji cambiado -->
+                <canvas id="productSalesChart" role="img" aria-label="Gráfico de barras horizontales de los productos más vendidos"></canvas>
+                <p class="narrative" id="productSalesNarrative">Visualizando los productos estrella en términos de ingresos...</p>
+            </div>
+        </section>
+
+        <!-- Sección 8: Análisis Pareto de Productos -->
+        <section class="chart-section" aria-labelledby="pareto-heading">
+            <h2>📊 Análisis Pareto de Productos (80/20) 📈</h2>
+            <div class="chart-container large-chart">
+                <canvas id="productParetoChart" role="img" aria-label="Gráfico combinado de Pareto mostrando ventas por producto y porcentaje acumulado"></canvas>
+                <p class="narrative large-narrative" id="productParetoNarrative">Aplicando el principio 80/20 para identificar los productos vitales que generan la mayor parte de los ingresos...</p>
+            </div>
+        </section>
+
+        <!-- Sección 9: Otros Análisis Anuales -->
+        <section class="chart-section" aria-labelledby="extra-anual-heading">
+            <h2 id="extra-anual-heading">📊 Otros Análisis Anuales 📉</h2>
+            <div class="chart-container">
+                <h3>Distribución Anual %</h3>
+                <canvas id="distribucionVentasChart" role="img" aria-label="Gráfico de dona de distribución de ventas por año"></canvas>
+                <p class="narrative" id="distribucionVentasNarrative">Distribución porcentual de las ventas anuales en el total histórico analizado.</p>
+            </div>
+            <div class="chart-container">
+                <h3>📊📈 Tendencia Anual: Ventas vs Crecimiento 💰🔥</h3>
+                <canvas id="tendenciaAcumuladaChart" role="img" aria-label="Gráfico combinado de ventas anuales vs crecimiento porcentual"></canvas>
+                <p class="narrative" id="tendenciaAcumuladaNarrative">Correlación entre el volumen de ventas anual (barras) y la tasa de crecimiento respecto al año anterior (línea).</p>
+            </div>
+        </section>
+
+        <!-- Sección 10: Análisis Pareto de Clientes con Semáforo -->
+        <section class="chart-section" aria-labelledby="customer-pareto-heading">
+            <h2 id="customer-pareto-heading">📊🔍 Análisis Pareto de Clientes 📊🔍</h2>
+            <div class="chart-container large-chart">
+                <canvas id="customerParetoChart" role="img" aria-label="Gráfico combinado de Pareto mostrando ventas por cliente y porcentaje acumulado, con barras coloreadas condicionalmente"></canvas>
+                <p class="narrative large-narrative" id="customerParetoNarrative">Identificando la concentración de ventas en clientes clave y su clasificación (Verde: Vitales, Amarillo: Importantes, Rojo: Ocasionales)...</p>
+            </div>
+        </section>
+
+        <!-- Sección 11: KPIs Adicionales (Gráficos Promedio Venta y Top Cantidad) -->
+        <!-- (Esta sección la omito según tu última petición, pero si la necesitas, iría aquí) -->
+        <!--
+        <section class="chart-section" aria-labelledby="kpi-adicional-heading">
+            <h2 id="kpi-adicional-heading">📊 KPIs Adicionales 📈</h2>
+            <div class="chart-container">
+                <h3>💰 Valor Promedio de Venta por Región ($) 🌍</h3>
+                <canvas id="promedioVentaPorRegionChart" role="img" aria-label="Gráfico de barras del valor promedio de venta por región"></canvas>
+                <p class="narrative" id="promedioVentaRegionNarrative">Calculando el ticket promedio por región...</p>
+            </div>
+            <div class="chart-container">
+                <h3>⭐ Top 5 Productos (por Cantidad Vendida) 🛒</h3>
+                <canvas id="topProductosCantidadChart" role="img" aria-label="Gráfico de barras de los 5 productos más vendidos por cantidad"></canvas>
+                <p class="narrative" id="topProductosCantidadNarrative">Identificando los productos más populares en unidades...</p>
+            </div>
+        </section>
+        -->
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Dashboard generado con Chart.js © <span id="current-year"></span></p>
+        <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+    </footer>
+
+    <Scripts de Librerías (ya incluidos en head, pero a veces se ponen al final)></Scripts>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> 
+
+    <!-- Script Principal -->
+    <script src="script.js"></script>
+</body>
+
+</html>
