@@ -12,7 +12,7 @@
 
 *   **¿Qué Contiene?** Dentro de `SUPERMERCADO_JPV_V3`, la información está organizada lógicamente en **tablas interconectadas** 🔗. Las tablas principales incluyen:
     *   👤 `Clientes`: Información de quienes compran.
-    *   <0xF0><0x9F><0xA7><0xB3> `Productos`: Catálogo de artículos, precios, stock.
+    *   📦`Productos`: Catálogo de artículos, precios, stock.
     *   🛒 `Ventas`: El registro detallado de cada transacción.
     *   👷 `Vendedores`: Quién realiza las ventas.
     *   🌍 `Regiones` (y Provincias): Datos geográficos relevantes.
@@ -27,9 +27,10 @@
 
 *   **Automatización (Opcional):** El diseño también puede incluir **Triggers** ⚡ para tareas automáticas, como actualizar el stock de `Productos` cada vez que se inserta una nueva `Venta`.
 
-En resumen, esta base de datos no es solo almacenamiento; es la **fuente única de verdad** que permite el análisis, la gestión y la toma de decisiones inteligentes para el supermercado. ✅
+Esta base de datos no es solo almacenamiento; es la **fuente única de verdad** que permite el análisis, la gestión y la toma de decisiones inteligentes para el supermercado. ✅
 
----
+![Vista Dashboard KPIs](screenshots/Screenshot_392.png)
+
 ---
 
 
