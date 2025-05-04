@@ -147,6 +147,10 @@ No reinventamos la rueda. Aprovechamos librerías especializadas para tareas com
 
 Estas librerías aceleran el desarrollo y proporcionan funcionalidades robustas y probadas.
 
+| Vista 1                                      | Vista 2                                         | Vista 3                                       |
+| :------------------------------------------: | :---------------------------------------------: | :-------------------------------------------: |
+| ![Vista Dashboard KPIs](screenshots/CHARRT.jpg) | ![Vista Dashboard Resumen Ejecutivo](screenshots/JSPDF.webp) | ![Vista Dashboard Evolución Anual](screenshots/html2canvas.png) |
+
 ---
 
 ## 📊 Del Dato Crudo al Insight Visual: Gráficos y Análisis ✨
