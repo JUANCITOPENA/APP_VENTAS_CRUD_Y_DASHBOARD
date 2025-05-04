@@ -182,7 +182,6 @@ Al presentar la información de forma clara y contextualizada, el **análisis de
 A continuación se muestra la organización de los archivos y carpetas clave del proyecto:
 
 ```text
-.
 ├── node_modules/             # Dependencias de Node.js instaladas
 ├── public/                   # Archivos estáticos servidos al cliente
 │   ├── index.html          # UI del Dashboard Principal
@@ -198,7 +197,8 @@ A continuación se muestra la organización de los archivos y carpetas clave del
 └── README.md                 # Documentación del proyecto (este archivo)
 
 ---
-## ¡Puesta en Marcha! ▶️⚙️
+
+## !Puesta en Marcha! ▶️⚙️
 
 Para poner en funcionamiento este proyecto en tu entorno local, sigue estos pasos:
 
