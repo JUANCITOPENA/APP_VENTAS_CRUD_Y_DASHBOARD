@@ -25,12 +25,6 @@ A continuación se muestran algunas capturas de pantalla clave del Dashboard de 
 | ![Vista Dashboard Cliente Producto](screenshots/Screenshot_386.png) | ![Vista Dashboard Pareto Productos](screenshots/Screenshot_385.png) | ![Vista Dashboard Pareto Clientes](screenshots/Screenshot_384.png) |
 | ![Vista Gestión Ventas Formulario](screenshots/Screenshot_383.png) | ![Vista Gestión Ventas Tabla Llena](screenshots/Screenshot_382.png) | ![Vista Dashboard Modo Oscuro](screenshots/Screenshot_381.png) |
 
-**Nota Importante:** Para que estas imágenes se muestren correctamente, asegúrate de:
-1.  Crear una carpeta llamada `screenshots` (o el nombre que prefieras, por ejemplo `images`) en la raíz de tu repositorio GitHub.
-2.  Subir los archivos `Screenshot_XXX.png` mencionados a esa carpeta.
-3.  Si elegiste un nombre de carpeta diferente a `screenshots`, actualiza las rutas en la tabla anterior para que coincidan (ej., `images/Screenshot_392.png`).
-
-
 ## Construyendo la Experiencia: HTML 🏗️, CSS 💅 y JavaScript Puro 🧠
 
 La interfaz que ves es el resultado de la sinergia del trío fundamental de la web:
