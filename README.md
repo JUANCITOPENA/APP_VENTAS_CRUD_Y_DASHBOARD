@@ -29,7 +29,7 @@
 
 Esta base de datos no es solo almacenamiento; es la **fuente única de verdad** que permite el análisis, la gestión y la toma de decisiones inteligentes para el supermercado. ✅
 
-![Vista Dashboard KPIs](screenshots/Screenshot_392.png)
+![Vista Dashboard KPIs](screenshots/Screenshot_395.png)
 
 ---
 
