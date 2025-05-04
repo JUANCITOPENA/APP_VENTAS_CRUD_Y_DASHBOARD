@@ -103,37 +103,89 @@ Al presentar la información de forma clara y contextualizada, el **análisis de
 
 ## Estructura del Proyecto 📁
 
+A continuación se muestra la organización de los archivos y carpetas clave del proyecto:
+
+```text
 .
-├── node_modules/
-├── public/
-│ ├── index.html # UI Dashboard Principal
-│ ├── style.css # Estilos Generales y Dashboard
-│ ├── script.js # Lógica JS del Dashboard
-│ ├── ventas.html # UI Gestión de Ventas
-│ ├── ventas_style.css # Estilos específicos de Gestión de Ventas
-│ └── ventas_script.js # Lógica JS de Gestión de Ventas
-├── server.js # Backend (API, Conexión BD)
-├── package.json
-├── package-lock.json
-└── README.md # ¡Este archivo!
-
-
+├── node_modules/             # Dependencias de Node.js instaladas
+├── public/                   # Archivos estáticos servidos al cliente
+│   ├── index.html          # UI del Dashboard Principal
+│   ├── style.css           # Estilos Generales y del Dashboard
+│   ├── script.js           # Lógica JavaScript del Dashboard
+│   ├── ventas.html         # UI de Gestión de Ventas
+│   ├── ventas_style.css    # Estilos específicos de Gestión de Ventas
+│   └── ventas_script.js    # Lógica JavaScript de Gestión de Ventas
+├── .env                      # (Opcional/Recomendado) Variables de entorno (¡Añadir a .gitignore!)
+├── server.js                 # Script del Servidor Backend (Node.js/Express)
+├── package.json              # Metadatos del proyecto y dependencias npm
+├── package-lock.json         # Versiones exactas de las dependencias instaladas
+└── README.md                 # Documentación del proyecto (este archivo)
 
 ---
-
 ## ¡Puesta en Marcha! ▶️⚙️
 
-1.  **Clona el repositorio.**
-2.  **Base de Datos:** Asegúrate de tener una instancia de SQL Server accesible. Crea la base de datos (`SUPERMERCADO_JPV_V_2025`) y las tablas/vistas requeridas (`CLIENTE`, `VENDEDOR`, `REGION`, `PRODUCTO`, `VENTAS`, `NUEVA_VISTA_ANALISIS_VENTAS_v1`). **Importante:** Configura correctamente la cadena de conexión (`dbConfig`) dentro de `server.js` con tus credenciales y detalles del servidor SQL. 🔑
-3.  **Dependencias:** Abre una terminal en la carpeta raíz del proyecto y ejecuta:
+Para poner en funcionamiento este proyecto en tu entorno local, sigue estos pasos:
+
+### 1. Prerrequisitos 🛠️
+
+Asegúrate de tener instalado el siguiente software en tu sistema:
+
+*   **Node.js y npm:**
+    *   **Node.js:** Es el entorno de ejecución para el backend (`server.js`). Se recomienda una versión LTS (Long Term Support) reciente. Puedes descargarlo desde [nodejs.org](https://nodejs.org/).
+    *   **npm:** Viene incluido con Node.js. Es el gestor de paquetes que usaremos para instalar las librerías del proyecto. Puedes verificar tu instalación abriendo una terminal y ejecutando `node -v` y `npm -v`.
+*   **SQL Server:**
+    *   Necesitas una instancia de **Microsoft SQL Server** accesible (puede ser una versión Express gratuita, Developer, Standard, etc.). Esta será la base de datos que almacenará los datos de ventas.
+    *   Puedes descargar SQL Server desde el [sitio oficial de Microsoft](https://www.microsoft.com/es-es/sql-server/sql-server-downloads).
+    *   **Opcional pero recomendado:** Una herramienta de gestión de bases de datos como **SQL Server Management Studio (SSMS)** o **Azure Data Studio** para crear la base de datos, las tablas y ejecutar consultas fácilmente.
+
+### 2. Configuración de la Base de Datos 🗄️
+
+*   **Crea la Base de Datos:** Usando SSMS o tu herramienta preferida, crea una nueva base de datos llamada `SUPERMERCADO_JPV_V_2025`.
+*   **Crea las Tablas y Vistas:** Ejecuta los scripts SQL necesarios para crear las tablas (`CLIENTE`, `VENDEDOR`, `REGION`, `PRODUCTO`, `VENTAS`) y la vista de análisis (`NUEVA_VISTA_ANALISIS_VENTAS_v1`) dentro de la base de datos `SUPERMERCADO_JPV_V_2025`. *(Nota: Asegúrate de tener estos scripts o créalos según la estructura esperada por `server.js`)*.
+*   **Configura la Conexión:** Abre el archivo `server.js` en un editor de texto. Localiza la sección `dbConfig` y **modifica los valores** (`user`, `password`, `server`, `database`) para que coincidan con los detalles de tu instancia de SQL Server y tus credenciales. 🔑 **¡IMPORTANTE: No compartas credenciales sensibles en repositorios públicos!** Considera usar variables de entorno (con `dotenv`) para manejar las credenciales de forma más segura si planeas compartir el código.
+
+### 3. Instalación de Dependencias (Node.js) 📦
+
+*   **Clona el Repositorio:** Si aún no lo has hecho, descarga o clona el código fuente del proyecto en tu máquina local.
+*   **Instala Librerías:** Abre una terminal o línea de comandos, navega hasta la **carpeta raíz** del proyecto (la que contiene `server.js` y `package.json`) y ejecuta el siguiente comando:
     ```bash
-    npm install
+    npm install express mssql cors dotenv
     ```
-4.  **Ejecutar Servidor:** Inicia el servidor backend con:
+    Este comando instalará (o actualizará) las librerías de Node.js necesarias para el backend (`server.js`). Las librerías clave incluidas en este comando son:
+    *   `express`: Framework web para construir la API y servir los archivos estáticos.
+    *   `mssql`: Driver oficial de Microsoft para conectar Node.js con SQL Server.
+    *   `cors`: Middleware para habilitar Cross-Origin Resource Sharing (útil si tu frontend se sirve desde un origen diferente al backend en algún momento, aunque en esta configuración simple no sea estrictamente necesario, es buena práctica incluirlo).
+    *   `dotenv`: Permite cargar variables de entorno desde un archivo `.env` (ideal para manejar credenciales de base de datos y otras configuraciones sensibles de forma segura, separadas del código fuente).
+
+    *(Nota: Si ya tienes un `package.json`, puedes ejecutar `npm install` y se instalarán todas las dependencias listadas allí, incluyendo estas si están definidas).*
+
+### 4. Variables de Entorno (Opcional, pero Recomendado con `dotenv`) 🔒
+
+*   Si decides usar `dotenv`, crea un archivo llamado `.env` en la **carpeta raíz** del proyecto (al mismo nivel que `server.js`).
+*   Dentro del archivo `.env`, define tus variables de entorno, por ejemplo:
+    ```dotenv
+    DB_USER=tu_usuario_sql
+    DB_PASSWORD=tu_contraseña_sql
+    DB_SERVER=tu_servidor_sql\\instancia
+    DB_DATABASE=SUPERMERCADO_JPV_V_2025
+    PORT=3000
+    ```
+*   **Importante:** Añade el archivo `.env` a tu `.gitignore` para evitar subirlo accidentalmente a repositorios públicos.
+*   Asegúrate de que `server.js` cargue y use estas variables (normalmente se añade `require('dotenv').config();` al principio del archivo y se modifican las partes relevantes como `dbConfig` y `port` para usar `process.env.NOMBRE_VARIABLE`).
+
+### 5. Ejecutar el Servidor Backend 🚀
+
+*   Desde la misma terminal en la carpeta raíz del proyecto, ejecuta:
     ```bash
     node server.js
     ```
-5.  **Accede:** Abre tu navegador y ve a `http://localhost:3000` para el dashboard o `http://localhost:3000/ventas.html` para la gestión de ventas (o el puerto que hayas configurado).
+*   Si todo está configurado correctamente, deberías ver mensajes en la consola indicando que el servidor está escuchando en un puerto (el definido en `.env` o el valor por defecto) y que se ha conectado (o intentado conectar) a la base de datos.
+
+### 6. Acceder a la Aplicación 🌐
+
+*   Abre tu navegador web preferido.
+*   Navega a `http://localhost:3000` (o el puerto configurado) para ver el **Dashboard de Ventas**.
+*   Navega a `http://localhost:3000/ventas.html` para acceder a la interfaz de **Gestión de Ventas**.
 
 ---
 
