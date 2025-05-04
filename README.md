@@ -1,5 +1,3 @@
-# 📊 Dashboard de Ventas Avanzado 🚀
-
 # 📊 Dashboard de Ventas Avanzado & Gestión CRUD 🚀
 
 ✨ **¡Bienvenido/a al Dashboard de Ventas Avanzado y Sistema de Gestión!** Este proyecto es mucho más que una simple colección de gráficos y tablas interactivas. Es una demostración práctica de cómo transformar datos crudos de ventas en **conocimiento accionable** 💡, diseñado no solo para impulsar decisiones de negocio inteligentes, sino también para ilustrar el poder de dominar las **tecnologías fundamentales** de la programación y el análisis de datos.
