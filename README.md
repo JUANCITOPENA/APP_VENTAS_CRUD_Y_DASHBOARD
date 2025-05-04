@@ -46,8 +46,6 @@ Este proyecto es un ejemplo de cómo puedes **llevar tus habilidades al siguient
 
 ---
 
----
-
 ## 🗄️ El Corazón de Datos: La Base de Datos `SUPERMERCADO_JPV_V3` 💾
 
 ¡Todo gran sistema necesita una base sólida, y aquí es donde reside la nuestra! La base de datos `SUPERMERCADO_JPV_V3` es el **repositorio central** donde vive toda la información vital de nuestro supermercado.
@@ -202,7 +200,7 @@ A continuación se muestra la organización de los archivos y carpetas clave del
 
 Para poner en funcionamiento este proyecto en tu entorno local, sigue estos pasos:
 
-
+---
 ## 🛠 Instalación y Configuración
 
 ### 1. ✅ **Prerrequisitos Indispensables** 🛠️
@@ -219,6 +217,7 @@ Antes de comenzar, asegúrate de tener instalado:
   - Herramienta de gestión recomendada: 
     - [SQL Server Management Studio (SSMS)](https://docs.microsoft.com/es-es/sql/ssms/download-sql-server-management-studio-ssms)
     - O [Azure Data Studio](https://docs.microsoft.com/es-es/sql/azure-data-studio/download-azure-data-studio)
+---
 
 ### 2. 🗄️ **Configuración de la Base de Datos SQL Server**
 
@@ -249,8 +248,9 @@ Antes de comenzar, asegúrate de tener instalado:
        enableArithAbort: true
      }
    };
-   ```
 
+```
+---
 ### 3. 📦 **Instalación de Dependencias (Node.js)**
 
 1. Navega a la carpeta raíz del proyecto en tu terminal:
@@ -268,7 +268,7 @@ Antes de comenzar, asegúrate de tener instalado:
    - `mssql`: Driver para conexión con SQL Server
    - `cors`: Middleware para habilitar CORS
    - `dotenv`: Gestión de variables de entorno
-
+---
 ### 4. 🔒 **Variables de Entorno (Opcional, pero Muy Recomendado)**
 
 Para mayor seguridad, configura las variables sensibles en un archivo `.env`:
@@ -305,7 +305,7 @@ Para mayor seguridad, configura las variables sensibles en un archivo `.env`:
    node_modules/
    .env
    ```
-
+---
 ### 5. ▶️ **Ejecución del Servidor Backend** 🚀
 
 1. Inicia el servidor:
@@ -318,7 +318,7 @@ Para mayor seguridad, configura las variables sensibles en un archivo `.env`:
    Servidor escuchando en el puerto 3000
    Conexión a SQL Server establecida correctamente
    ```
-
+---
 ### 6. 🌐 **Acceso a la Aplicación**
 
 Abre tu navegador y accede a:
@@ -334,9 +334,9 @@ Para obtener una copia local del proyecto:
 git clone https://github.com/JUANCITOPENA/APP_VENTAS_CRUD_Y_DASHBOARD.git
 cd APP_VENTAS_CRUD_Y_DASHBOARD
 ```
-
+---
 ## 🔌 **API Endpoints**
-
+---
 El backend expone los siguientes endpoints para interactuar con la base de datos:
 
 - **GET `/api/ventas`**: Obtiene todas las ventas
@@ -349,9 +349,9 @@ El backend expone los siguientes endpoints para interactuar con la base de datos
 - **GET `/api/productos`**: Lista todos los productos
 - **GET `/api/clientes`**: Lista todos los clientes
 - **GET `/api/vendedores`**: Lista todos los vendedores
-
+---
 ## 🤝 **Contribución**
-
+---
 ¡Las contribuciones son bienvenidas! Si deseas mejorar este proyecto:
 
 1. **Reporta un problema**: Describe bugs o mejoras propuestas abriendo un [Issue](https://github.com/JUANCITOPENA/APP_VENTAS_CRUD_Y_DASHBOARD/issues).
@@ -364,18 +364,18 @@ El backend expone los siguientes endpoints para interactuar con la base de datos
    - Realiza tus cambios y haz commit: `git commit -m 'Añade nueva característica'`
    - Sube tus cambios: `git push origin feature/nueva-caracteristica`
    - Envía un Pull Request
-
+---
 ## 👨‍💻 **Soporte**
-
+---
 Si encuentras útil este proyecto o te ha servido para aprender:
 
 - ⭐ **Dale una estrella** al repositorio en GitHub
 - 🔗 **Conéctate** conmigo en redes sociales:
   - [LinkedIn](https://www.linkedin.com/in/juancitope%C3%B1a/)
   - [YouTube](https://www.youtube.com/channel/UCSob-3E5z4IHtMF5B4bN-FA)
-
+---
 ## 📜 **Licencia**
-
+---
 Este proyecto está distribuido bajo la [Licencia MIT](LICENSE). Esto significa que puedes usar, modificar y distribuir este código libremente, siempre que incluyas el aviso de copyright original y la nota de licencia.
 
 ---
